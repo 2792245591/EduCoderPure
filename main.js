@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         头歌助手低调版
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Done
 // @author       SunSeaLucky&&Jser
 // @match        https://trustie.educoder.net/*
 // @icon         none
 // @grant        none
 // @run-at       document-start
+// @license      MIT
 // @require      https://cdn.jsdelivr.net/npm/js-base64@3.7.5/base64.min.js
 // ==/UserScript==
 
