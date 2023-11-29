@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         头歌助手低调版
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
-// @description  Done
+// @version      1.0.3
+// @description  Just For Uva
 // @author       SunSeaLucky&&Jser
 // @match        https://trustie.educoder.net/*
 // @icon         none
@@ -10,6 +10,8 @@
 // @run-at       document-start
 // @license      MIT
 // @require      https://cdn.jsdelivr.net/npm/js-base64@3.7.5/base64.min.js
+// @downloadURL https://update.greasyfork.org/scripts/480963/%E5%A4%B4%E6%AD%8C%E5%8A%A9%E6%89%8B%E4%BD%8E%E8%B0%83%E7%89%88.user.js
+// @updateURL https://update.greasyfork.org/scripts/480963/%E5%A4%B4%E6%AD%8C%E5%8A%A9%E6%89%8B%E4%BD%8E%E8%B0%83%E7%89%88.meta.js
 // ==/UserScript==
 
 //设置随机测试时间区间上限
@@ -19,7 +21,11 @@ const min = 5000;
 // 目前设置随机时间的方法出现严重Bug，请谨慎使用！若仍想快速刷时间，请进入微信头歌小程序，在对应的实例界面左右滑动，可快速刷到int最大值
 const setRandomTime = false;
 
+
+
 (function() {
+
+    //响应劫持
     let oldFetch = fetch;
     function hookFetch(...args) {
         return new Promise((resolve, reject) => {
@@ -27,6 +33,7 @@ const setRandomTime = false;
                 //请求匹配逻辑
                 if (arguments[0].indexOf('homework_common_id') !== -1) {
                     const oldJson = response.json;
+                    // response.json是一个promise对象
                     response.json = function () {
                         return new Promise((resolve, reject) => {
                             oldJson.apply(this, arguments).then((result) => {
@@ -46,7 +53,15 @@ const setRandomTime = false;
     }
     window.fetch = hookFetch;
 
+    //加载完毕 响应窗口
     window.onload = function(){
+        // 创建 link 元素
+        var linkElement = document.createElement('link');
+        linkElement.rel = 'stylesheet';
+        linkElement.href = 'https://cdn.jsdelivr.net/npm/picnic';
+        // 将 link 元素添加到 head 元素中
+        document.head.appendChild(linkElement);
+
         // 创建一个 <div> 元素
         var div = document.createElement("div");
         div.classList.add('JSer_Mian');
@@ -102,22 +117,19 @@ const setRandomTime = false;
         let codenum = document.createElement("input");
         codenum.style.width = "100px";
         codenum.style.height = "30px";
-        codenum.placeholder = "输入序号即可"
+        codenum.placeholder = "序号即可"
 
         bt_select.style.width = "100px";
         bt_select.style.height = "30px";
-        bt_select.textContent = "select";
+        bt_select.textContent = "全选";
         bt_select.style.fontSize = "12px";
+        bt_select.classList.add('success');
         bt_find.style.width = "100px";
         bt_find.style.height = "30px";
-        bt_find.textContent = "find";
+        bt_find.textContent = "查找";
         bt_find.style.fontSize = "12px";
 
-        // 创建一个新的 KeyboardEvent
-        // const event = new KeyboardEvent('keydown', {
-        //     key: 'f',
-        //     ctrlKey: true
-        // });
+
 
         function filterString(str) {
             const filteredStr = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -126,7 +138,7 @@ const setRandomTime = false;
 
         let msg = document.createElement("span");
         msg.style.textAlign = "center";
-        con.appendChild(msg).textContent = "CTRL + A 全选删除后单独写个a 然后选中拖动替换";
+        con.appendChild(msg).textContent = "F2切换 隐藏/显示 可复制粘贴";
         con.appendChild(codenum);
         con.appendChild(bt_find);
         con.appendChild(bt_select);
