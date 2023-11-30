@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         头歌助手低调版
 // @namespace    http://tampermonkey.net/
-// @version      1.0.4
+// @version      1.0.5
 // @description  Just For Uva
 // @author       SunSeaLucky&&Jser
 // @match        https://trustie.educoder.net/*
