@@ -21,19 +21,16 @@ const min = 5000;
 // 目前设置随机时间的方法出现严重Bug，请谨慎使用！若仍想快速刷时间，请进入微信头歌小程序，在对应的实例界面左右滑动，可快速刷到int最大值
 const setRandomTime = false;
 
-
-
 (function () {
 
-    //响应劫持
+    //响应劫持 破解复制粘贴
     let oldFetch = fetch;
     function hookFetch(...args) {
         return new Promise((resolve, reject) => {
             oldFetch.apply(this, arguments).then((response) => {
-                //请求匹配逻辑
+                //匹配响应对应的请求
                 if (arguments[0].indexOf('homework_common_id') !== -1) {
                     const oldJson = response.json;
-                    // response.json是一个promise对象
                     response.json = function () {
                         return new Promise((resolve, reject) => {
                             oldJson.apply(this, arguments).then((result) => {
@@ -51,6 +48,7 @@ const setRandomTime = false;
             });
         });
     }
+    // 劫持fetch
     window.fetch = hookFetch;
 
     //加载完毕 响应窗口
@@ -101,20 +99,24 @@ const setRandomTime = false;
             }
         });
 
-
+        // 设置容器
         let con = document.createElement("div");
         con.style.width = "350px";
         con.style.height = "auto";
         con.style.display = "flex";
         con.style.flexDirection = "column";
         // con.style.justifyContent = "center";
-
         div.appendChild(con);
+
+        // 创建元素
         let code = document.createElement("div");
         code.classList.add('code');
         let bt_select = document.createElement("button");
         let bt_find = document.createElement("button");
         let codenum = document.createElement("input");
+        
+
+        // 元素样式
         codenum.style.width = "100px";
         codenum.style.height = "30px";
         codenum.placeholder = "序号即可"
@@ -124,13 +126,13 @@ const setRandomTime = false;
         bt_select.textContent = "全选";
         bt_select.style.fontSize = "12px";
         bt_select.classList.add('success');
+
         bt_find.style.width = "100px";
         bt_find.style.height = "30px";
         bt_find.textContent = "查找";
         bt_find.style.fontSize = "12px";
 
-
-
+        // 转义pre标签内容
         function filterString(str) {
             const filteredStr = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             return filteredStr;
@@ -143,8 +145,9 @@ const setRandomTime = false;
         con.appendChild(bt_find);
         con.appendChild(bt_select);
 
+        // 按钮点击事件监听  发出请求
         bt_find.addEventListener('click', () => {
-            // console.log(`https://6k7f936939.yicp.fun/index.php?codeNumber=${codenum.value}`);
+            // console.log(`https://6k7f936939.yicp.fun/index.php?codeNumber=${codenum.value}`);//老接口 测试接口
             fetch(`https://service-q3vdttin-1301163996.bj.apigw.tencentcs.com/release/FuckEducoder?question=${codenum.value}&vertification=DLloIbnmoTpobbpg6gKdm9pZCBwaWxlX29udG8oaW50IHAsIG`, {
                 method: "POST",
             }).then(Response => {
@@ -167,6 +170,7 @@ const setRandomTime = false;
 
         });
 
+        // 按钮点击事件监听 全选
         bt_select.addEventListener('click', () => {
             const codeElement = code.querySelector('pre');
             const range = document.createRange();
