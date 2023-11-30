@@ -23,7 +23,7 @@ const setRandomTime = false;
 
 
 
-(function() {
+(function () {
 
     //响应劫持
     let oldFetch = fetch;
@@ -54,7 +54,7 @@ const setRandomTime = false;
     window.fetch = hookFetch;
 
     //加载完毕 响应窗口
-    window.onload = function(){
+    window.onload = function () {
         // 创建 link 元素
         var linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
@@ -145,7 +145,9 @@ const setRandomTime = false;
 
         bt_find.addEventListener('click', () => {
             // console.log(`https://6k7f936939.yicp.fun/index.php?codeNumber=${codenum.value}`);
-            fetch(`https://6k7f936939.yicp.fun/index.php?codeNumber=${codenum.value}`).then(Response => {
+            fetch(`https://service-q3vdttin-1301163996.bj.apigw.tencentcs.com/release/FuckEducoder?question=${codenum.value}&vertification=DLloIbnmoTpobbpg6gKdm9pZCBwaWxlX29udG8oaW50IHAsIG`, {
+                method: "POST",
+            }).then(Response => {
                 if (Response.ok) {
                     return Response.text();
                 }
