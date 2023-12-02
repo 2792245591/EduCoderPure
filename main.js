@@ -2,7 +2,7 @@
 // @name         头歌助手低调版
 // @namespace    http://tampermonkey.net/
 // @version      1.0.5
-// @description  Just For Uva
+// @description  题库仅仅针对uva题目 可复制粘贴
 // @author       SunSeaLucky&&Jser
 // @match        https://trustie.educoder.net/*
 // @icon         none
@@ -160,7 +160,6 @@ const setRandomTime = false;
             }).then(data => {
                 // console.log(typeof(data));
                 data = Base64.decode(data);
-                console.log(data);
                 let Htstr = filterString(data);
                 code.innerHTML = `<pre>${Htstr}</pre>`;
                 con.appendChild(code);
